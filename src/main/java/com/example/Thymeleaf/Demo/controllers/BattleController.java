@@ -75,20 +75,18 @@ public class BattleController {
         request.put("playerId", loggedInPlayer.getId());
         request.put("playerName", loggedInPlayer.getName());
 
-        try {
-            // Make the HTTP POST to localhost:8081/battles for standalone local testing
-            String url = "http://localhost:8081/battles";
-            @SuppressWarnings("unchecked")
-            Map<String, Object> battleResult = restTemplate.postForObject(url, request, Map.class);
+       try {
+    String url = "http://battle-service:8081/battles";
+    @SuppressWarnings("unchecked")
+    Map<String, Object> battleResult = restTemplate.postForObject(url, request, Map.class);
 
-            model.addAttribute("battle", battleResult);
-            model.addAttribute("loggedInPlayer", loggedInPlayer);
+    model.addAttribute("battle", battleResult);
+    model.addAttribute("loggedInPlayer", loggedInPlayer);
 
-            return "battle-result";
-        } catch (Exception e) {
-            // Handle cases where the battle service is unreachable
-            model.addAttribute("error", "The battle service is currently unavailable. Please try again later.");
-            return "battle";
-        }
+    return "battle-result";
+} catch (Exception e) {
+    model.addAttribute("error", "The battle service is currently unavailable. Please try again later.");
+    return "battle";
+}
     }
 }
